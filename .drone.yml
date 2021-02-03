@@ -6,6 +6,7 @@ steps:
 - name: build
   image: docker:19.03-git
   commands:
+  - apk add --no-cache build-base
   - make -Otarget -j8 build
   - docker image ls
   volumes:
