@@ -1,6 +1,6 @@
 ARG IMAGE_REPO
 FROM ${IMAGE_REPO:-lagoon}/commons as commons
-FROM solr:7.7.1-alpine
+FROM solr:8.0.0-alpine
 
 LABEL maintainer="amazee.io"
 ENV LAGOON=solr
