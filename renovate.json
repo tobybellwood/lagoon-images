@@ -19,35 +19,35 @@
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f apcu-(?<currentValue>.*?) "],
       "depNameTemplate": "krakjoe/apcu",
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "github-tags",
       "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f imagick-(?<currentValue>.*?) "],
       "depNameTemplate": "Imagick/imagick",
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "github-tags",
       "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f redis-(?<currentValue>.*?) "],
       "depNameTemplate": "phpredis/phpredis",
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "github-tags",
       "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f xdebug-(?<currentValue>.*?) "],
       "depNameTemplate": "xdebug/xdebug",
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "github-tags",
       "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f yaml-(?<currentValue>.*?) "],
       "depNameTemplate": "php/pecl-file_formats-yaml",
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "github-tags",
       "versioningTemplate": "loose"
     }
   ],
@@ -55,7 +55,8 @@
     { 
       "groupName": "PECL updates",
       "matchDatasources": [
-        "github-releases"
+        "github-releases",
+        "github-tags"
       ],
       "matchPackageNames": [
         "krakjoe/apcu",
