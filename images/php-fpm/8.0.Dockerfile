@@ -80,9 +80,9 @@ RUN apk add --no-cache fcgi \
     && pecl channel-update pecl.php.net \
     && yes '' | pecl install -f apcu-5.1.19 \
     && yes '' | pecl install -f imagick-3.5.1 \
-    && yes '' | pecl install -f redis-5.3.2 \
-    && yes '' | pecl install -f xdebug-3.0.0 \
-    && yes '' | pecl install -f yaml-2.2.0 \
+    && yes '' | pecl install -f redis-5.3.4 \
+    && yes '' | pecl install -f xdebug-3.0.4 \
+    && yes '' | pecl install -f yaml-2.2.1 \
     && docker-php-ext-enable apcu imagick redis xdebug yaml
 # RUN sed -i '1s/^/;Intentionally disabled. Enable via setting env variable XDEBUG_ENABLE to true\n;/' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 RUN rm -rf /var/cache/apk/* /tmp/pear/ \
