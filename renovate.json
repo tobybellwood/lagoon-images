@@ -59,11 +59,7 @@
         "github-tags"
       ],
       "matchPackageNames": [
-        "krakjoe/apcu",
-        "Imagick/imagick",
-        "phpredis/phpredis",
-        "xdebug/xdebug",
-        "php/pecl-file_formats-yaml"
+        "krakjoe/apcu"
       ],
       "extractVersion": "^v(?<version>.*)$"
     },
