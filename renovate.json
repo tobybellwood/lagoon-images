@@ -16,42 +16,26 @@
   "separateMultipleMajor": true,
   "regexManagers": [
     {
-        "fileMatch": [
-            "(^|/|\\.)Dockerfile$"
-        ],
-        "matchStrings": [
-            "pecl install -f apcu-(?<currentValue>.*?) "
-        ],
-        "depNameTemplate": "krakjoe/apcu",
-        "datasourceTemplate": "github-releases"
+      "fileMatch": ["(^|/|\\.)Dockerfile$"],
+      "matchStrings": ["pecl install -f apcu-(?<currentValue>.*?) "],
+      "depNameTemplate": "krakjoe/apcu",
+      "datasourceTemplate": "github-releases"
     },
     {
-      "fileMatch": [
-          "(^|/|\\.)Dockerfile$"
-      ],
-      "matchStrings": [
-          "pecl install -f imagick-(?<currentValue>.*?) "
-      ],
+      "fileMatch": ["(^|/|\\.)Dockerfile$"],
+      "matchStrings": ["pecl install -f imagick-(?<currentValue>.*?) "],
       "depNameTemplate": "Imagick/imagick",
       "datasourceTemplate": "github-releases"
     },
     {
-      "fileMatch": [
-          "(^|/|\\.)Dockerfile$"
-      ],
-      "matchStrings": [
-          "pecl install -f redis-(?<currentValue>.*?) "
-      ],
+      "fileMatch": ["(^|/|\\.)Dockerfile$"],
+      "matchStrings": ["pecl install -f redis-(?<currentValue>.*?) "],
       "depNameTemplate": "phpredis/phpredis",
       "datasourceTemplate": "github-releases"
     },
     {
-      "fileMatch": [
-          "(^|/|\\.)Dockerfile$"
-      ],
-      "matchStrings": [
-          "pecl install -f xdebug-(?<currentValue>.*?) "
-      ],
+      "fileMatch": ["(^|/|\\.)Dockerfile$"],
+      "matchStrings": ["pecl install -f xdebug-(?<currentValue>.*?) "],
       "depNameTemplate": "xdebug/xdebug",
       "datasourceTemplate": "github-releases"
     },
@@ -67,6 +51,20 @@
     }
   ],
   "packageRules": [
+    { 
+      "groupName": "PECL updates",
+      "matchDatasources": [
+        "github-releases"
+      ],
+      "matchPackageNames": [
+        "krakjoe/apcu",
+        "Imagick/imagick",
+        "phpredis/phpredis",
+        "xdebug/xdebug",
+        "php/pecl-file_formats-yaml"
+      ],
+      "extractVersion": "^v(?<version>.*)$"
+    },
     {
       "matchDatasources": [
         "docker"
