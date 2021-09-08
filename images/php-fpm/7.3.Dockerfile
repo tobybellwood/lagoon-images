@@ -79,7 +79,7 @@ RUN apk add --no-cache fcgi \
     && yes '' | pecl install -f apcu-5.1.19 \
     && yes '' | pecl install -f yaml-2.2.0 \
     && yes '' | pecl install -f redis-4.3.0 \
-    && yes '' | pecl install -f imagick-3.5.0 \
+    && yes '' | pecl install -f imagick-3.5.1 \
     && docker-php-ext-enable apcu redis xdebug imagick \
     && docker-php-ext-configure gd --with-webp-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j4 bcmath gd gettext pdo_mysql mysqli pdo_pgsql pgsql shmop soap sockets opcache xsl zip \
