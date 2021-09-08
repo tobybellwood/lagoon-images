@@ -60,7 +60,6 @@
     },
     { 
       "enabled": true,
-      "groupName": "PECL updates",
       "matchDatasources": [
         "github-releases",
         "github-tags"
