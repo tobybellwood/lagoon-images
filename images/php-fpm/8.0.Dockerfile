@@ -78,7 +78,7 @@ RUN apk add --no-cache fcgi \
     && docker-php-ext-install -j4 bcmath gd gettext pdo_mysql mysqli pdo_pgsql pgsql shmop soap sockets opcache xsl zip \
     # Legacy PECL installs
     && pecl channel-update pecl.php.net \
-    && yes '' | pecl install -f apcu-5.1.19 \
+    && yes '' | pecl install -f apcu-5.1.20 \
     && yes '' | pecl install -f imagick-3.5.1 \
     && yes '' | pecl install -f redis-5.3.2 \
     && yes '' | pecl install -f xdebug-3.0.0 \
