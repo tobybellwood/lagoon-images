@@ -48,7 +48,7 @@
   ],
   "packageRules": [
     { 
-      "groupName": "PECL updates",
+      "enabled": true,
       "matchDatasources": [
         "github-releases",
         "github-tags"
@@ -59,7 +59,8 @@
       "extractVersion": "^v(?<version>.*)$"
     },
     { 
-      "groupName": "PECL updates 2",
+      "enabled": true,
+      "groupName": "PECL updates",
       "matchDatasources": [
         "github-releases",
         "github-tags"
@@ -75,7 +76,26 @@
         "php/pecl-file_formats-yaml"
       ]
     },
+    { 
+      "enabled": false,
+      "groupName": "Disable PECL major updates",
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "matchPackageNames": [
+        "krakjoe/apcu",
+        "Imagick/imagick",
+        "phpredis/phpredis",
+        "xdebug/xdebug",
+        "php/pecl-file_formats-yaml"
+      ]
+    },
     {
+      "enabled": true,
       "matchDatasources": [
         "docker"
       ],
@@ -102,6 +122,7 @@
       ]
     },
     {
+      "enabled": true,
       "matchDatasources": [
         "docker"
       ],
