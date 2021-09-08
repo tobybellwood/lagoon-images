@@ -20,7 +20,7 @@
             "(^|/|\\.)Dockerfile$"
         ],
         "matchStrings": [
-            "pecl install -f apcu-(?<currentValue>.*?) \\\n"
+            "pecl install -f apcu-(?<currentValue>.*?) "
         ],
         "depNameTemplate": "github.com/krakjoe/apcu",
         "datasourceTemplate": "github-releases"
@@ -30,7 +30,7 @@
           "(^|/|\\.)Dockerfile$"
       ],
       "matchStrings": [
-          "pecl install -f imagick-(?<currentValue>.*?) \\\n"
+          "pecl install -f imagick-(?<currentValue>.*?) "
       ],
       "depNameTemplate": "github.com/Imagick/imagick",
       "datasourceTemplate": "github-releases"
@@ -40,7 +40,7 @@
           "(^|/|\\.)Dockerfile$"
       ],
       "matchStrings": [
-          "pecl install -f redis-(?<currentValue>.*?) \\\n"
+          "pecl install -f redis-(?<currentValue>.*?) "
       ],
       "depNameTemplate": "github.com/phpredis/phpredis",
       "datasourceTemplate": "github-releases"
@@ -50,7 +50,7 @@
           "(^|/|\\.)Dockerfile$"
       ],
       "matchStrings": [
-          "pecl install -f xdebug-(?<currentValue>.*?) \\\n"
+          "pecl install -f xdebug-(?<currentValue>.*?) "
       ],
       "depNameTemplate": "github.com/xdebug/xdebug",
       "datasourceTemplate": "github-releases"
@@ -60,7 +60,7 @@
           "(^|/|\\.)Dockerfile$"
       ],
       "matchStrings": [
-          "pecl install -f yaml-(?<currentValue>.*?) \\\n"
+          "pecl install -f yaml-(?<currentValue>.*?) "
       ],
       "depNameTemplate": "github.com/php/pecl-file_formats-yaml",
       "datasourceTemplate": "github-releases"
