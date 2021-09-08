@@ -53,10 +53,6 @@
         "github-releases",
         "github-tags"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
       "matchPackageNames": [
         "krakjoe/apcu"
       ],
