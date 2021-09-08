@@ -17,37 +17,38 @@
   "regexManagers": [
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["pecl install -f apcu-(?<currentValue>.*?) "],
+      "matchStrings": ["pecl install -f apcu-(?<currentValue>.*?)  \/n"],
       "depNameTemplate": "krakjoe/apcu",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["pecl install -f imagick-(?<currentValue>.*?) "],
+      "matchStrings": ["pecl install -f imagick-(?<currentValue>.*?) \/n"],
       "depNameTemplate": "Imagick/imagick",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["pecl install -f redis-(?<currentValue>.*?) "],
+      "matchStrings": ["pecl install -f redis-(?<currentValue>.*?) \/n"],
       "depNameTemplate": "phpredis/phpredis",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["pecl install -f xdebug-(?<currentValue>.*?) "],
+      "matchStrings": ["pecl install -f xdebug-(?<currentValue>.*?) \/n"],
       "depNameTemplate": "xdebug/xdebug",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
     },
     {
-      "fileMatch": [
-          "(^|/|\\.)Dockerfile$"
-      ],
-      "matchStrings": [
-          "pecl install -f yaml-(?<currentValue>.*?) "
-      ],
+      "fileMatch": ["(^|/|\\.)Dockerfile$"],
+      "matchStrings": ["pecl install -f yaml-(?<currentValue>.*?) \/n"],
       "depNameTemplate": "php/pecl-file_formats-yaml",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
     }
   ],
   "packageRules": [
