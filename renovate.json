@@ -22,7 +22,7 @@
         "matchStrings": [
             "pecl install -f apcu-(?<currentValue>.*?) "
         ],
-        "depNameTemplate": "github.com/krakjoe/apcu",
+        "depNameTemplate": "krakjoe/apcu",
         "datasourceTemplate": "github-releases"
     },
     {
@@ -32,7 +32,7 @@
       "matchStrings": [
           "pecl install -f imagick-(?<currentValue>.*?) "
       ],
-      "depNameTemplate": "github.com/Imagick/imagick",
+      "depNameTemplate": "Imagick/imagick",
       "datasourceTemplate": "github-releases"
     },
     {
@@ -42,7 +42,7 @@
       "matchStrings": [
           "pecl install -f redis-(?<currentValue>.*?) "
       ],
-      "depNameTemplate": "github.com/phpredis/phpredis",
+      "depNameTemplate": "phpredis/phpredis",
       "datasourceTemplate": "github-releases"
     },
     {
@@ -52,7 +52,7 @@
       "matchStrings": [
           "pecl install -f xdebug-(?<currentValue>.*?) "
       ],
-      "depNameTemplate": "github.com/xdebug/xdebug",
+      "depNameTemplate": "xdebug/xdebug",
       "datasourceTemplate": "github-releases"
     },
     {
@@ -62,7 +62,7 @@
       "matchStrings": [
           "pecl install -f yaml-(?<currentValue>.*?) "
       ],
-      "depNameTemplate": "github.com/php/pecl-file_formats-yaml",
+      "depNameTemplate": "php/pecl-file_formats-yaml",
       "datasourceTemplate": "github-releases"
     }
   ],
