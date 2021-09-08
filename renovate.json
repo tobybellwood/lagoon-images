@@ -19,36 +19,31 @@
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f apcu-(?<currentValue>.*?) "],
       "depNameTemplate": "krakjoe/apcu",
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "loose"
+      "datasourceTemplate": "github-tags"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f imagick-(?<currentValue>.*?) "],
       "depNameTemplate": "Imagick/imagick",
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "loose"
+      "datasourceTemplate": "github-tags"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f redis-(?<currentValue>.*?) "],
       "depNameTemplate": "phpredis/phpredis",
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "loose"
+      "datasourceTemplate": "github-tags"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f xdebug-(?<currentValue>.*?) "],
       "depNameTemplate": "xdebug/xdebug",
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "loose"
+      "datasourceTemplate": "github-tags"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f yaml-(?<currentValue>.*?) "],
       "depNameTemplate": "php/pecl-file_formats-yaml",
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "loose"
+      "datasourceTemplate": "github-tags"
     }
   ],
   "packageRules": [
@@ -58,10 +53,31 @@
         "github-releases",
         "github-tags"
       ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "matchPackageNames": [
         "krakjoe/apcu"
       ],
       "extractVersion": "^v(?<version>.*)$"
+    },
+    { 
+      "groupName": "PECL updates 2",
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": [
+        "Imagick/imagick",
+        "phpredis/phpredis",
+        "xdebug/xdebug",
+        "php/pecl-file_formats-yaml"
+      ]
     },
     {
       "matchDatasources": [
