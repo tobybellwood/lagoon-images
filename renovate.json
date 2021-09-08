@@ -14,6 +14,58 @@
   "separateMajorMinor": true,
   "separateMinorPatch": true,
   "separateMultipleMajor": true,
+  "regexManagers": [
+    {
+        "fileMatch": [
+            "(^|/|\\.)Dockerfile$"
+        ],
+        "matchStrings": [
+            "pecl install -f apcu-(?<currentValue>.*?)\n"
+        ],
+        "depNameTemplate": "github.com/krakjoe/apcu",
+        "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": [
+          "(^|/|\\.)Dockerfile$"
+      ],
+      "matchStrings": [
+          "pecl install -f imagick-(?<currentValue>.*?)\n"
+      ],
+      "depNameTemplate": "github.com/Imagick/imagick",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": [
+          "(^|/|\\.)Dockerfile$"
+      ],
+      "matchStrings": [
+          "pecl install -f redis-(?<currentValue>.*?)\n"
+      ],
+      "depNameTemplate": "github.com/phpredis/phpredis",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": [
+          "(^|/|\\.)Dockerfile$"
+      ],
+      "matchStrings": [
+          "pecl install -f xdebug-(?<currentValue>.*?)\n"
+      ],
+      "depNameTemplate": "github.com/xdebug/xdebug",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": [
+          "(^|/|\\.)Dockerfile$"
+      ],
+      "matchStrings": [
+          "pecl install -f yaml-(?<currentValue>.*?)\n"
+      ],
+      "depNameTemplate": "github.com/php/pecl-file_formats-yaml",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
   "packageRules": [
     {
       "matchDatasources": [
