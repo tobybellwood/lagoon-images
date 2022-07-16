@@ -20,7 +20,7 @@
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["pecl install -f apcu-(?<currentValue>.*?) "],
       "depNameTemplate": "krakjoe/apcu",
-      "datasourceTemplate": "github-tags"
+      "datasourceTemplate": "github-releases"
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
