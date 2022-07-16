@@ -56,7 +56,6 @@
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["ENV NEWRELIC_VERSION=(?<currentValue>.*?)\n"],
       "depNameTemplate": "newrelic/newrelic-php-agent",
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).(?<build>\\d+)$",
       "datasourceTemplate": "github-releases"
     },
     {
@@ -86,6 +85,17 @@
       "enabled": true,
       "matchDatasources": [
         "github-releases",
+        "github-tags"
+      ],
+      "matchPackageNames": [
+        "newrelic/newrelic-php-agent"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).(?<build>\\d+)$",
+    },
+    { 
+      "enabled": true,
+      "matchDatasources": [
+        "github-releases",
         "github-tags",
         "packagist"
       ],
@@ -102,7 +112,6 @@
         "drush/drush",
         "hechoendrupal/drupal-console-launcher",
         "drush-ops/drush-launcher",
-        "newrelic/newrelic-php-agent",
         "blackfireio/docker"
       ]
     },
@@ -127,7 +136,6 @@
         "drush/drush",
         "hechoendrupal/drupal-console-launcher",
         "drush-ops/drush-launcher",
-        "newrelic/newrelic-php-agent",
         "blackfireio/docker"
       ]
     },
