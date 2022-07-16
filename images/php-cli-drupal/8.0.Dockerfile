@@ -12,7 +12,7 @@ RUN curl -L -o /usr/local/bin/drupal "https://github.com/hechoendrupal/drupal-co
     && chmod +x /usr/local/bin/drupal
 
 RUN mkdir -p /opt/drush8 \
-    && php /usr/local/bin/composer init -n -d /opt/drush8 --require=drush/drush:8.4.9 \
+    && php /usr/local/bin/composer init -n -d /opt/drush8 --require=drush/drush:10.6.2 \
     && php -d memory_limit=-1 /usr/local/bin/composer update -n -d /opt/drush8
 
 RUN curl -L -o /usr/local/bin/drush "https://github.com/drush-ops/drush-launcher/releases/download/0.10.0/drush.phar" \
