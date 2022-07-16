@@ -56,6 +56,7 @@
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["ENV NEWRELIC_VERSION=(?<currentValue>.*?)\n"],
       "depNameTemplate": "newrelic/newrelic-php-agent",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).(?<build>\\d+)$",
       "datasourceTemplate": "github-releases"
     },
     {
