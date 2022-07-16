@@ -8,7 +8,7 @@ ENV LAGOON=cli-drupal
 
 ENV DRUSH_LAUNCHER_FALLBACK=/opt/drush8/vendor/bin/drush
 
-RUN curl -L -o /usr/local/bin/drupal "https://github.com/hechoendrupal/drupal-console-launcher/releases/download/1.9.6/drupal.phar" \
+RUN curl -L -o /usr/local/bin/drupal "https://github.com/hechoendrupal/drupal-console-launcher/releases/download/1.9.7/drupal.phar" \
     && chmod +x /usr/local/bin/drupal
 
 RUN mkdir -p /opt/drush8 \
