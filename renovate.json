@@ -73,7 +73,8 @@
       "enabled": true,
       "matchDatasources": [
         "github-releases",
-        "github-tags"
+        "github-tags",
+        "packagist
       ],
       "matchUpdateTypes": [
         "minor",
@@ -95,7 +96,8 @@
       "groupName": "Disable PHP package/extension major updates",
       "matchDatasources": [
         "github-releases",
-        "github-tags"
+        "github-tags",
+        "packagist
       ],
       "matchUpdateTypes": [
         "major"
