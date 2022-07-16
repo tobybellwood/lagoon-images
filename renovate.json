@@ -90,7 +90,8 @@
       "matchPackageNames": [
         "newrelic/newrelic-php-agent"
       ],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).(?<build>\\d+)$",
+      "extractVersion": "^v(?<version>.*)$",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).(?<build>\\d+)$"
     },
     { 
       "enabled": true,
