@@ -74,7 +74,7 @@
       "matchDatasources": [
         "github-releases",
         "github-tags",
-        "packagist
+        "packagist"
       ],
       "matchUpdateTypes": [
         "minor",
@@ -97,7 +97,7 @@
       "matchDatasources": [
         "github-releases",
         "github-tags",
-        "packagist
+        "packagist"
       ],
       "matchUpdateTypes": [
         "major"
