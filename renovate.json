@@ -48,7 +48,7 @@
     },
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["curl.*https://github.com/(?<depName>.*?)/releases/download/(?<currentValue>.*?)/*.phar.*\n"],
+      "matchStrings": ["curl.*https://github.com/(?<depName>.*?)/releases/download/(?<currentValue>.*?)/.*.phar.*\n"],
       "datasourceTemplate": "github-releases"
     },
     {
