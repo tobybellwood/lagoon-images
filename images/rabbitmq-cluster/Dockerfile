@@ -1,8 +1,8 @@
 ARG IMAGE_REPO
-FROM ${IMAGE_REPO:-lagoon}/rabbitmq
+ARG IMAGE_TAG
+FROM ${IMAGE_REPO:-lagoon}/rabbitmq:${IMAGE_TAG:-latest}
 
 RUN rabbitmq-plugins --offline enable rabbitmq_peer_discovery_k8s
-
 
 ADD enabled_plugins /etc/rabbitmq/enabled_plugins
 ADD rabbitmq.conf /etc/rabbitmq/rabbitmq.conf

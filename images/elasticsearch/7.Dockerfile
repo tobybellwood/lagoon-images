@@ -1,10 +1,8 @@
 ARG IMAGE_REPO
-FROM ${IMAGE_REPO:-lagoon}/commons as commons
-# Defining Versions - https://www.elastic.co/guide/en/elasticsearch/reference/7.6/docker.html
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+ARG IMAGE_TAG
+FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 
-LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
-LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.10.2
 
 ENV LAGOON=elasticsearch
 
@@ -36,7 +34,7 @@ ENV TMPDIR=/tmp \
     BASH_ENV=/home/.bashrc
 
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* \
-    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-* \
+    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=https://mirror.rackspace.com/centos-vault|g' /etc/yum.repos.d/CentOS-Linux-* \
     && yum -y install zip && yum -y clean all  && rm -rf /var/cache
 
 # Mitigation for CVE-2021-45046 and CVE-2021-44228
@@ -72,7 +70,6 @@ ENV ES_JAVA_OPTS="-Xms400m -Xmx400m -Dlog4j2.formatMsgNoLookups=true" \
 
 # Copy es-curl wrapper
 COPY es-curl /usr/share/elasticsearch/bin/es-curl
-
 
 VOLUME [ "/usr/share/elasticsearch/data" ]
 

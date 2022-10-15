@@ -1,9 +1,10 @@
 ARG IMAGE_REPO
-FROM --platform=linux/amd64 ${IMAGE_REPO:-lagoon}/commons as commons
-FROM --platform=linux/amd64 alpine:3.8
+ARG IMAGE_TAG
+FROM --platform=linux/amd64 ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 
-LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
-LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
+# Held at alpine 3.8 to ensure mongodb 3.6
+# Only amd64-based images available
+FROM --platform=linux/amd64 alpine:3.8
 
 ENV LAGOON=mongo
 
