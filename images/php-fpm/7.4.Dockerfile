@@ -6,7 +6,7 @@ FROM composer:latest as healthcheckbuilder
 
 RUN composer create-project --no-dev amazeeio/healthz-php /healthz-php v0.0.6
 
-FROM php:7.4.32-fpm-alpine3.16
+FROM php:7.4.33-fpm-alpine3.16
 
 ENV LAGOON=php
 
@@ -128,7 +128,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && mv /blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
     && fix-permissions /usr/local/etc/php/conf.d/
 
-ENV BLACKFIRE_VERSION=2.12.0
+ENV BLACKFIRE_VERSION=2.13.0
 RUN architecture=$(case $(uname -m) in x86_64 | amd64) echo "amd64" ;; aarch64 | arm64 | armv8) echo "arm64" ;; *) echo "amd64" ;; esac) \
     && curl -A "Docker" -o /blackfire/blackfire-linux_${architecture}.tar.gz -D - -L -s https://packages.blackfire.io/binaries/blackfire/${BLACKFIRE_VERSION}/blackfire-linux_${architecture}.tar.gz \
     && tar zxpf /blackfire/blackfire-linux_${architecture}.tar.gz -C /blackfire \
