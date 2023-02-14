@@ -1,7 +1,8 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-FROM alpine:3.14.8
+# Held at 3.14.x to ensure mariadb 10.5 whilst we evaluate upgrade path
+FROM alpine:3.14.9
 
 ARG LAGOON_VERSION
 ENV LAGOON_VERSION=$LAGOON_VERSION

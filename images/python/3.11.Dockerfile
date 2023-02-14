@@ -1,13 +1,12 @@
 ARG IMAGE_REPO
-ARG IMAGE_TAG
-FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-# Alpine 3.17 image not available for Ruby 3.0
-FROM ruby:3.0.5-alpine3.16
+FROM ${IMAGE_REPO:-lagoon}/commons as commons
+
+FROM python:3.11.2-alpine3.17
 
 LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
 LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
 
-ENV LAGOON=ruby
+ENV LAGOON=python
 
 # Copy commons files
 COPY --from=commons /lagoon /lagoon
@@ -28,7 +27,8 @@ ENV TMPDIR=/tmp \
 
 RUN apk add --no-cache --virtual .build-deps \
         build-base \
-    && gem install webrick puma bundler \
+    && pip install --upgrade pip \
+    && pip install virtualenv \
     && apk del \
            .build-deps
 
@@ -37,4 +37,4 @@ COPY 80-shell-timeout.sh /lagoon/entrypoints/
 RUN echo "source /lagoon/entrypoints/80-shell-timeout.sh" >> /home/.bashrc
 
 ENTRYPOINT ["/sbin/tini", "--", "/lagoon/entrypoints.sh"]
-CMD ["ruby"]
+CMD ["python"]

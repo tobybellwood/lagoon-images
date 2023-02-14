@@ -39,7 +39,7 @@ SHELL := /bin/bash
 #######
 
 # Parameter for all `docker build` commands, can be overwritten by passing `DOCKER_BUILD_PARAMS=` via the `-e` option
-DOCKER_BUILD_PARAMS := --quiet
+DOCKER_BUILD_PARAMS :=
 
 # On CI systems like jenkins we need a way to run multiple testings at the same time. We expect the
 # CI systems to define an Environment variable CI_BUILD_TAG which uniquely identifies each build.
@@ -136,7 +136,6 @@ docker_pull:
 unversioned-images :=		commons \
 							nginx \
 							nginx-drupal \
-							mongo \
 							rabbitmq \
 							rabbitmq-cluster
 
@@ -167,7 +166,6 @@ $(build-images):
 # 2. Dockerfiles of the Images itself, will cause make to rebuild the images if something has
 #    changed on the Dockerfiles
 build/commons: images/commons/Dockerfile
-build/mongo: build/commons images/mongo/Dockerfile
 build/nginx: build/commons images/nginx/Dockerfile
 build/nginx-drupal: build/nginx images/nginx-drupal/Dockerfile
 build/rabbitmq: build/commons images/rabbitmq/Dockerfile
@@ -177,25 +175,29 @@ build/rabbitmq-cluster: build/rabbitmq images/rabbitmq-cluster/Dockerfile
 ####### Multi-version Images
 #######
 
-versioned-images := 		php-7.4-fpm \
-							php-8.0-fpm \
+versioned-images := 		php-8.0-fpm \
 							php-8.1-fpm \
-							php-7.4-cli \
+							php-8.2-fpm \
 							php-8.0-cli \
 							php-8.1-cli \
-							php-7.4-cli-drupal \
+							php-8.2-cli \
 							php-8.0-cli-drupal \
 							php-8.1-cli-drupal \
+							php-8.2-cli-drupal \
 							python-3.7 \
 							python-3.8 \
 							python-3.9 \
 							python-3.10 \
+							python-3.11 \
 							node-14 \
 							node-14-builder \
+							node-14-cli \
 							node-16 \
 							node-16-builder \
+							node-16-cli \
 							node-18 \
 							node-18-builder \
+							node-18-cli \
 							solr-7 \
 							solr-7-drupal \
 							solr-8 \
@@ -209,8 +211,12 @@ versioned-images := 		php-7.4-fpm \
 							postgres-13-drupal \
 							postgres-14 \
 							postgres-14-drupal \
+							postgres-15 \
+							postgres-15-drupal \
 							redis-6 \
 							redis-6-persistent \
+							redis-7 \
+							redis-7-persistent \
 							mariadb-10.5 \
 							mariadb-10.5-drupal \
 							mariadb-10.6 \
@@ -225,6 +231,7 @@ versioned-images := 		php-7.4-fpm \
 							varnish-7-persistent-drupal \
 							ruby-3.0 \
 							ruby-3.1 \
+							ruby-3.2 \
 							opensearch-2
 
 # default-versioned-images are images that formerly had no versioning, and are made backwards-compatible.
@@ -236,7 +243,8 @@ default-versioned-images := 	mariadb-10.4 \
 							postgres-11-ckan \
 							postgres-11-drupal \
 							redis-5 \
-							redis-5-persistent
+							redis-5-persistent \
+							mongo-4
 
 #######
 ####### Experimental Images
@@ -270,27 +278,32 @@ base-images-with-versions += $(experimental-images)
 s3-images += $(versioned-images)
 s3-images += $(experimental-images)
 
-build/php-7.4-fpm build/php-8.0-fpm build/php-8.1-fpm: build/commons
-build/php-7.4-cli: build/php-7.4-fpm
+build/php-8.0-fpm build/php-8.1-fpm build/php-8.2-fpm: build/commons
 build/php-8.0-cli: build/php-8.0-fpm
 build/php-8.1-cli: build/php-8.1-fpm
-build/php-7.4-cli-drupal: build/php-7.4-cli
+build/php-8.2-cli: build/php-8.2-fpm
 build/php-8.0-cli-drupal: build/php-8.0-cli
 build/php-8.1-cli-drupal: build/php-8.1-cli
-build/python-3.7 build/python-3.8 build/python-3.9 build/python-3.10: build/commons
+build/php-8.2-cli-drupal: build/php-8.2-cli
+build/python-3.7 build/python-3.8 build/python-3.9 build/python-3.10 build/python-3.11: build/commons
 build/node-14 build/node-16 build/node-18: build/commons
 build/node-14-builder: build/node-14
 build/node-16-builder: build/node-16
 build/node-18-builder: build/node-18
+build/node-14-cli: build/node-14
+build/node-16-cli: build/node-16
+build/node-18-cli: build/node-18
 build/elasticsearch-7 build/kibana-7 build/logstash-7: build/commons
-build/postgres-11 build/postgres-12 build/postgres-13 build/postgres-14: build/commons
+build/postgres-11 build/postgres-12 build/postgres-13 build/postgres-14 build/postgres-15: build/commons
 build/postgres-11-ckan build/postgres-11-drupal: build/postgres-11
 build/postgres-12-drupal: build/postgres-12
 build/postgres-13-drupal: build/postgres-13
 build/postgres-14-drupal: build/postgres-14
-build/redis-5 build/redis-6: build/commons
+build/postgres-15-drupal: build/postgres-15
+build/redis-5 build/redis-6 build/redis-7: build/commons
 build/redis-5-persistent: build/redis-5
 build/redis-6-persistent: build/redis-6
+build/redis-7-persistent: build/redis-7
 build/varnish-6 build/varnish-7: build/commons
 build/varnish-6-drupal build/varnish-6-persistent: build/varnish-6
 build/varnish-6-persistent-drupal: build/varnish-6-drupal
@@ -303,8 +316,9 @@ build/mariadb-10.4 build/mariadb-10.5 build/mariadb-10.6: build/commons
 build/mariadb-10.4-drupal: build/mariadb-10.4
 build/mariadb-10.5-drupal: build/mariadb-10.5
 build/mariadb-10.6-drupal: build/mariadb-10.6
-build/ruby-3.0 build/ruby-3.1: build/commons
+build/ruby-3.0 build/ruby-3.1 build/ruby-3.2: build/commons
 build/opensearch-2: build/commons
+build/mongo-4: build/commons 
 
 #######
 ####### Building Images
@@ -489,7 +503,7 @@ $(publish-amazeeio-baseimages-with-versions):
 		$(eval version = $(word 2,$(subst -, ,$(image))))
 		$(eval type = $(word 3,$(subst -, ,$(image))))
 		$(eval subtype = $(word 4,$(subst -, ,$(image))))
-#   Construct a "legacy" tag of the form `amazeeio/variant:version-type-subtype` e.g. `amazeeio/php:7.4-cli-drupal`
+#   Construct a "legacy" tag of the form `amazeeio/variant:version-type-subtype` e.g. `amazeeio/php:8.2-cli-drupal`
 		$(eval legacytag = $(shell echo $(variant)$(if $(version),:$(version))$(if $(type),-$(type))$(if $(subtype),-$(subtype))))
 #	These images already use a tag to differentiate between different versions of the service itself (like node:9 and node:10)
 #	We push a version without the `-latest` suffix

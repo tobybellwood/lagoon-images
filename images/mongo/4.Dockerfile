@@ -1,10 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
-FROM --platform=linux/amd64 ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-
-# Held at alpine 3.8 to ensure mongodb 3.6
-# Only amd64-based images available
-FROM --platform=linux/amd64 alpine:3.8
+FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
+FROM alpine:3.17.2
 
 ENV LAGOON=mongo
 
@@ -12,7 +9,7 @@ ARG LAGOON_VERSION
 ENV LAGOON_VERSION=$LAGOON_VERSION
 
 COPY --from=commons /lagoon /lagoon
-COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/wait-for /bin/
+COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/
 COPY --from=commons /sbin/tini /sbin/
 COPY --from=commons /home /home
 
@@ -24,7 +21,11 @@ ENV TMPDIR=/tmp \
     # When Bash is invoked as non-interactive (like `bash -c command`) it sources a file that is given in `BASH_ENV`
     BASH_ENV=/home/.bashrc
 
-RUN apk --no-cache add mongodb
+# Alpine 3.9 is the last release of the alpine mongodb package under OS license
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories
+RUN apk update
+RUN apk add mongodb=4.0.5-r0
 
 RUN mkdir -p /data/db /data/configdb && \
     fix-permissions /data/db && \

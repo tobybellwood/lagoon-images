@@ -2,7 +2,7 @@ ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 
-FROM python:3.9.15-alpine3.16
+FROM python:3.9.16-alpine3.17
 
 ENV LAGOON=python
 

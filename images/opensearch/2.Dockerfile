@@ -1,8 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-
-FROM opensearchproject/opensearch:2.3.0
+FROM opensearchproject/opensearch:2.5.0
 
 ENV LAGOON=opensearch
 

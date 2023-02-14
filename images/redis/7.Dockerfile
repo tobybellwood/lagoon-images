@@ -1,13 +1,15 @@
 ARG IMAGE_REPO
-ARG IMAGE_TAG
-FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-# Alpine 3.17 image not available for Ruby 3.0
-FROM ruby:3.0.5-alpine3.16
+FROM ${IMAGE_REPO:-lagoon}/commons as commons
+FROM redis:7.0.8-alpine3.17
 
 LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
 LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
 
-ENV LAGOON=ruby
+ENV LAGOON=redis
+ENV FLAVOR=ephemeral
+
+ARG LAGOON_VERSION
+ENV LAGOON_VERSION=$LAGOON_VERSION
 
 # Copy commons files
 COPY --from=commons /lagoon /lagoon
@@ -26,15 +28,11 @@ ENV TMPDIR=/tmp \
     # When Bash is invoked as non-interactive (like `bash -c command`) it sources a file that is given in `BASH_ENV`
     BASH_ENV=/home/.bashrc
 
-RUN apk add --no-cache --virtual .build-deps \
-        build-base \
-    && gem install webrick puma bundler \
-    && apk del \
-           .build-deps
+COPY conf /etc/redis/
+COPY docker-entrypoint /lagoon/entrypoints/70-redis-entrypoint
 
-# Make sure shells are not running forever
-COPY 80-shell-timeout.sh /lagoon/entrypoints/
-RUN echo "source /lagoon/entrypoints/80-shell-timeout.sh" >> /home/.bashrc
+RUN fix-permissions /etc/redis \
+    fix-permissions /data
 
 ENTRYPOINT ["/sbin/tini", "--", "/lagoon/entrypoints.sh"]
-CMD ["ruby"]
+CMD ["redis-server", "/etc/redis/redis.conf"]
