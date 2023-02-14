@@ -59,9 +59,9 @@ jobs:
             context: images/kibana
             dockerfile: 7.Dockerfile
             requires: commons
-          - image_name: mongo
+          - image_name: mongo-4
             context: images/mongo
-            dockerfile: Dockerfile
+            dockerfile: 4.Dockerfile
             requires: commons
           - image_name: node-14
             context: images/node
@@ -103,18 +103,10 @@ jobs:
             context: images/python
             dockerfile: 3.10.Dockerfile
             requires: commons
-          - image_name: php-7.4-fpm
-            context: images/php-fpm
-            dockerfile: 7.4.Dockerfile
+          - image_name: python-3.11
+            context: images/python
+            dockerfile: 3.11.Dockerfile
             requires: commons
-          - image_name: php-7.4-cli
-            context: images/php-cli
-            dockerfile: 7.4.Dockerfile
-            requires: php-7.4-fpm
-          - image_name: php-7.4-cli-drupal
-            context: images/php-cli-drupal
-            dockerfile: 7.4.Dockerfile
-            requires: php-7.4-cli
           - image_name: php-8.0-fpm
             context: images/php-fpm
             dockerfile: 8.0.Dockerfile
@@ -139,6 +131,18 @@ jobs:
             context: images/php-cli-drupal
             dockerfile: 8.1.Dockerfile
             requires: php-8.1-cli
+          - image_name: php-8.2-fpm
+            context: images/php-fpm
+            dockerfile: 8.2.Dockerfile
+            requires: commons
+          - image_name: php-8.2-cli
+            context: images/php-cli
+            dockerfile: 8.2.Dockerfile
+            requires: php-8.2-fpm
+          - image_name: php-8.2-cli-drupal
+            context: images/php-cli-drupal
+            dockerfile: 8.2.Dockerfile
+            requires: php-8.2-cli
           - image_name: postgres-11
             context: images/postgres
             dockerfile: 11.Dockerfile
@@ -175,6 +179,14 @@ jobs:
             context: images/postgres-drupal
             dockerfile: 14.Dockerfile
             requires: postgres-14
+          - image_name: postgres-15
+            context: images/postgres
+            dockerfile: 15.Dockerfile
+            requires: commons
+          - image_name: postgres-15-drupal
+            context: images/postgres-drupal
+            dockerfile: 15.Dockerfile
+            requires: postgres-15
           - image_name: rabbitmq
             context: images/rabbitmq
             dockerfile: Dockerfile
@@ -247,6 +259,14 @@ jobs:
             context: images/redis-persistent
             dockerfile: 6.Dockerfile
             requires: redis-6
+          - image_name: redis-7
+            context: images/redis
+            dockerfile: 7.Dockerfile
+            requires: commons
+          - image_name: redis-7-persistent
+            context: images/redis-persistent
+            dockerfile: 7.Dockerfile
+            requires: redis-7
           - image_name: ruby-3.0
             context: images/ruby
             dockerfile: 3.0.Dockerfile
@@ -254,6 +274,10 @@ jobs:
           - image_name: ruby-3.1
             context: images/ruby
             dockerfile: 3.1.Dockerfile
+            requires: commons
+          - image_name: ruby-3.2
+            context: images/ruby
+            dockerfile: 3.2.Dockerfile
             requires: commons
           - image_name: opensearch-2
             context: images/opensearch
