@@ -8,26 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - image_name: commons
-            target_name: commons
-          - image_name: mariadb-10.4
-            target_name: mariadb-10-4
-          - image_name: mariadb-10.4-drupal
-            target_name: mariadb-10-4-drupal
-          - image_name: redis-6
-            target_name: redis-6
-          - image_name: redis-6-persistent
-            target_name: redis-6-persistent
-          - image_name: php-8.1-fpm
-            target_name: php-8-1-fpm
-          - image_name: php-8.1-cli
-            target_name: php-8-1-cli
-          - image_name: php-8.1-cli-drupal
-            target_name: php-8-1-cli-drupal
     steps:
       -
         name: Checkout
@@ -58,12 +38,8 @@ jobs:
           files: |
             ./docker-bake.hcl
           push: true
-          pull: true
-          targets: ${{ matrix.target_name }}
           set: |
             *.cache-from=type=gha
-            *.cache-from=type=registry,ref=docker.io/testlagoon/${{ matrix.image_name }}:main
-            *.cache-from=type=registry,ref=ghcr.io/tobybellwood/${{ matrix.image_name }}:${{ github.ref_name }}
             *.cache-to=type=gha,mode=max
       # -
       #   name: Build and push
@@ -96,103 +72,103 @@ jobs:
       #   run: |
       #     cat /tmp/sbom-action-*/${{ matrix.image_name }}.cyclonedx
 
-  # app_test:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   defaults:
-  #     run:
-  #       working-directory: ./tests
-  #   steps:
-  #   - 
-  #     name: Checkout
-  #     uses: actions/checkout@v2
-  #   - 
-  #     name: Checkout
-  #     uses: actions/checkout@v2
-  #     with:
-  #       repository: uselagoon/lagoon-examples
-  #       path: tests
-  #   -
-  #     name: Add additional tests
-  #     run: |
-  #       git submodule add -b php74 https://github.com/lagoon-examples/drupal9-postgres drupal9-postgres-php74
-  #       git submodule add -b php81 https://github.com/lagoon-examples/drupal9-base drupal9-base-php81
-  #   - 
-  #     name: Update git submodules
-  #     run: |
-  #       git submodule sync
-  #       git submodule update --init
-  #   - 
-  #     name: Use built images to test
-  #     run: |
-  #       grep -rl uselagoon . | xargs sed -i '/^FROM/ s#latest#${{ github.ref_name }}#'
-  #       grep -rl uselagoon . | xargs sed -i '/^FROM/ s#uselagoon#ghcr.io/${{ github.repository_owner }}#'
-  #       grep -rl uselagoon . | xargs sed -i '/image:/ s#latest#${{ github.ref_name }}#'
-  #       grep -rl uselagoon . | xargs sed -i '/image:/ s#uselagoon#ghcr.io/${{ github.repository_owner }}#'
-  #       find . -maxdepth 2 -name docker-compose.yml | xargs sed -i -e '/###/d'
-  #   -
-  #     name: check replacements
-  #     run: |
-  #       find . -maxdepth 2 -name docker-compose.yml | xargs grep image: 
-  #       find . -maxdepth 3 -name *.dockerfile | xargs grep ^FROM
-  #   - 
-  #     name: Install test harness
-  #     run: |
-  #       yarn install
-  #   - 
-  #     name: Generate test files
-  #     run: |
-  #       yarn generate-tests
-  #   - 
-  #     name: Run docker-compose tests
-  #     run: |
-  #       yarn test:dockercompose
+  app_test:
+    runs-on: ubuntu-latest
+    needs: build
+    defaults:
+      run:
+        working-directory: ./tests
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v2
+    - 
+      name: Checkout
+      uses: actions/checkout@v2
+      with:
+        repository: uselagoon/lagoon-examples
+        path: tests
+    -
+      name: Add additional tests
+      run: |
+        git submodule add -b php74 https://github.com/lagoon-examples/drupal9-postgres drupal9-postgres-php74
+        git submodule add -b php81 https://github.com/lagoon-examples/drupal9-base drupal9-base-php81
+    - 
+      name: Update git submodules
+      run: |
+        git submodule sync
+        git submodule update --init
+    - 
+      name: Use built images to test
+      run: |
+        grep -rl uselagoon . | xargs sed -i '/^FROM/ s#latest#${{ github.ref_name }}#'
+        grep -rl uselagoon . | xargs sed -i '/^FROM/ s#uselagoon#ghcr.io/${{ github.repository_owner }}#'
+        grep -rl uselagoon . | xargs sed -i '/image:/ s#latest#${{ github.ref_name }}#'
+        grep -rl uselagoon . | xargs sed -i '/image:/ s#uselagoon#ghcr.io/${{ github.repository_owner }}#'
+        find . -maxdepth 2 -name docker-compose.yml | xargs sed -i -e '/###/d'
+    -
+      name: check replacements
+      run: |
+        find . -maxdepth 2 -name docker-compose.yml | xargs grep image: 
+        find . -maxdepth 3 -name *.dockerfile | xargs grep ^FROM
+    - 
+      name: Install test harness
+      run: |
+        yarn install
+    - 
+      name: Generate test files
+      run: |
+        yarn generate-tests
+    - 
+      name: Run docker-compose tests
+      run: |
+        yarn test:dockercompose
 
-  # image_test:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   defaults:
-  #     run:
-  #       working-directory: ./tests
-  #   steps:
-  #   - 
-  #     name: Checkout
-  #     uses: actions/checkout@v2
-  #   - 
-  #     name: Checkout
-  #     uses: actions/checkout@v2
-  #     with:
-  #       repository: uselagoon/lagoon-examples
-  #       path: tests
-  #   -
-  #     name: Add additional tests
-  #     run: |
-  #       mkdir -p ./all-images && cp ../helpers/docker-compose.yml ./all-images/ && cp ../helpers/TESTING_dockercompose.md ./all-images/
-  #   - 
-  #     name: Use built images to test
-  #     run: |
-  #       grep -rl uselagoon . | xargs sed -i '/image:/ s#latest#${{ github.ref_name }}#'
-  #       grep -rl uselagoon . | xargs sed -i '/image:/ s#uselagoon#ghcr.io/${{ github.repository_owner }}#'
-  #       find . -maxdepth 2 -name docker-compose.yml | xargs sed -i -e '/###/d'
-  #   -
-  #     name: check replacements
-  #     run: |
-  #       find . -maxdepth 2 -name docker-compose.yml | xargs cat
-  #   -
-  #     name: check dc builds
-  #     run: |
-  #       cd ./all-images
-  #       docker-compose up -d
-  #       docker-compose logs
-  #   - 
-  #     name: Install test harness
-  #     run: |
-  #       yarn install
-  #   - 
-  #     name: Generate test files
-  #     run: |
-  #       yarn generate-tests
-  #   - 
-  #     name: Run docker-compose tests
-  #     run: |
-  #       yarn test:dockercompose
+  image_test:
+    runs-on: ubuntu-latest
+    needs: build
+    defaults:
+      run:
+        working-directory: ./tests
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v2
+    - 
+      name: Checkout
+      uses: actions/checkout@v2
+      with:
+        repository: uselagoon/lagoon-examples
+        path: tests
+    -
+      name: Add additional tests
+      run: |
+        mkdir -p ./all-images && cp ../helpers/docker-compose.yml ./all-images/ && cp ../helpers/TESTING_dockercompose.md ./all-images/
+    - 
+      name: Use built images to test
+      run: |
+        grep -rl uselagoon . | xargs sed -i '/image:/ s#latest#${{ github.ref_name }}#'
+        grep -rl uselagoon . | xargs sed -i '/image:/ s#uselagoon#ghcr.io/${{ github.repository_owner }}#'
+        find . -maxdepth 2 -name docker-compose.yml | xargs sed -i -e '/###/d'
+    -
+      name: check replacements
+      run: |
+        find . -maxdepth 2 -name docker-compose.yml | xargs cat
+    -
+      name: check dc builds
+      run: |
+        cd ./all-images
+        docker-compose up -d
+        docker-compose logs
+    - 
+      name: Install test harness
+      run: |
+        yarn install
+    - 
+      name: Generate test files
+      run: |
+        yarn generate-tests
+    - 
+      name: Run docker-compose tests
+      run: |
+        yarn test:dockercompose
