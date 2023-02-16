@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'gh_actions'
+      - 'gh_actions_2'
 
 jobs:
   build:
