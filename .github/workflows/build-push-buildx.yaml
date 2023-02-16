@@ -3,8 +3,7 @@ name: Lagoon Image Build - buildx
 on:
   push:
     branches:
-      - 'gh_actions'
-      - 'gh_actions_2'
+      - 'gh_actions**'
 
 jobs:
   build:
