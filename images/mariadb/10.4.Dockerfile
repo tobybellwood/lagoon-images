@@ -29,7 +29,8 @@ ENV BACKUPS_DIR="/var/lib/mysql/backup"
 ENV MARIADB_DATABASE=lagoon \
     MARIADB_USER=lagoon \
     MARIADB_PASSWORD=lagoon \
-    MARIADB_ROOT_PASSWORD=Lag00n
+    MARIADB_ROOT_PASSWORD=Lag00n \
+    MARIADB_RANDOM_VAR=something
 
 RUN \
     apk add --no-cache --virtual .common-run-deps \
