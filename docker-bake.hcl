@@ -207,7 +207,7 @@ target "commons" {
   context = "images/commons"
   dockerfile = "Dockerfile"
   tags = ["ghcr.io/tobybellwood/commons:bake"]
-  platforms = ["linux/amd64"]
+  platforms = ["linux/amd64","linux/arm64"]
 }
 
 target "elasticsearch-7" {
