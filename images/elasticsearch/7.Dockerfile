@@ -34,7 +34,7 @@ ENV TMPDIR=/tmp \
     BASH_ENV=/home/.bashrc
 
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* \
-    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=https://mirror.rackspace.com/centos-vault|g' /etc/yum.repos.d/CentOS-Linux-* \
+    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-* \
     && yum -y install zip && yum -y clean all  && rm -rf /var/cache
 
 # Mitigation for CVE-2021-45046 and CVE-2021-44228

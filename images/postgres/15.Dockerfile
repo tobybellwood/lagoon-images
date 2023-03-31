@@ -1,10 +1,8 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-FROM postgres:15.2-alpine3.17
 
-LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
-LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
+FROM postgres:15.2-alpine3.17
 
 ARG LAGOON_VERSION
 ENV LAGOON_VERSION=$LAGOON_VERSION

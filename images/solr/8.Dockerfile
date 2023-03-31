@@ -1,6 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
+
 FROM solr:8.11.2-slim
 
 ENV LAGOON=solr

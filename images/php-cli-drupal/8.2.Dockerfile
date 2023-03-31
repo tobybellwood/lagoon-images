@@ -2,9 +2,6 @@ ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/php-8.2-cli:${IMAGE_TAG:-latest}
 
-LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
-LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
-
 ENV LAGOON=cli-drupal
 
 ENV DRUSH_LAUNCHER_FALLBACK=/opt/drush8/vendor/bin/drush

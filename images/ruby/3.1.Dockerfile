@@ -4,9 +4,6 @@ FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 
 FROM ruby:3.1.4-alpine3.17
 
-LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
-LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
-
 ENV LAGOON=ruby
 
 # Copy commons files

@@ -1,6 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
+
 # Held at 3.12.x to ensure mariadb 10.4
 FROM alpine:3.12.12
 

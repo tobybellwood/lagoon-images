@@ -1,6 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
+
 # Alpine 3.17 image not available for Redis 5
 FROM redis:5.0.14-alpine3.16
 

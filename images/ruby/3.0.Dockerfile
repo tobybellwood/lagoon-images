@@ -5,9 +5,6 @@ FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 # Alpine 3.17 image not available for Ruby 3.0
 FROM ruby:3.0.6-alpine3.16
 
-LABEL org.opencontainers.image.authors="The Lagoon Authors" maintainer="The Lagoon Authors"
-LABEL org.opencontainers.image.source="https://github.com/uselagoon/lagoon-images" repository="https://github.com/uselagoon/lagoon-images"
-
 ENV LAGOON=ruby
 
 # Copy commons files

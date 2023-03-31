@@ -1,6 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
+
 FROM postgres:12.14-alpine3.17
 
 ARG LAGOON_VERSION
