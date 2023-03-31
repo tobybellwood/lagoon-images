@@ -11,6 +11,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package_group: mariadb
+          - package_group: node
+          - package_group: php
+          - package_group: postgres
+          - package_group: python
+          - package_group: redis
+          - package_group: ruby
+          - package_group: solr
+          - package_group: varnish
+          - package_group: others
+
     steps:
       -
         name: Checkout
@@ -27,12 +42,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-
-      - 
-        name: Create cache dir if non-existent
-        run: |
-          mkdir -p /tmp/.buildx-cache
-          mkdir -p /tmp/.buildx-cache-new
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
       # -
       #   name: Cache Docker layers
       #   uses: actions/cache@v2
@@ -59,7 +69,7 @@ jobs:
         uses: docker/bake-action@master
         with:
           files: |
-            ./docker-bake.hcl
+            ./docker-bake.hcl ${{ matrix.package_group }}
           push: true
           # set: |
           #   *.cache-from=type=gha
@@ -77,7 +87,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.ref_name }}
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
       # -
       #   name: Build and push
       #   uses: docker/build-push-action@v2
