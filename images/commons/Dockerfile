@@ -1,7 +1,7 @@
-FROM webdevops/go-crond:22.9.1-alpine AS go-crond
+FROM webdevops/go-crond:23.2.0-alpine AS go-crond
 FROM amazeeio/envplate:v1.0.0-rc.3 AS envplate
 
-FROM alpine:3.17.2
+FROM alpine:3.17.3
 
 ENV LAGOON=commons
 

@@ -6,7 +6,7 @@ FROM composer:latest as healthcheckbuilder
 
 RUN composer create-project --no-dev amazeeio/healthz-php /healthz-php v0.0.6
 
-FROM php:8.2.2-fpm-alpine3.17
+FROM php:8.2.4-fpm-alpine3.17
 
 ENV LAGOON=php
 
@@ -72,8 +72,8 @@ RUN apk add --no-cache --virtual .devdeps \
     && yes '' | pecl install -f apcu-5.1.22 \
     && yes '' | pecl install -f imagick-3.7.0 \
     && yes '' | pecl install -f redis-5.3.7 \
-    && yes '' | pecl install -f xdebug-3.2.0 \
-    && yes '' | pecl install -f yaml-2.2.2 \
+    && yes '' | pecl install -f xdebug-3.2.1 \
+    && yes '' | pecl install -f yaml-2.2.3 \
     && docker-php-ext-enable apcu imagick redis xdebug yaml \
     && rm -rf /tmp/pear \
     && apk del -r \
@@ -101,31 +101,31 @@ RUN apk add --no-cache --virtual .devdeps \
            ssmtp \
            yaml
 
-# New Relic support in PHP8.2 disabled until https://github.com/newrelic/newrelic-php-agent/issues/375 is resolved
 # New Relic PHP Agent.
 # @see https://docs.newrelic.com/docs/release-notes/agent-release-notes/php-release-notes/
 # @see https://docs.newrelic.com/docs/agents/php-agent/getting-started/php-agent-compatibility-requirements
-ENV NEWRELIC_VERSION=10.5.0.317
-# RUN architecture=$(case $(uname -m) in x86_64 | amd64) echo "amd64" ;; aarch64 | arm64 | armv8) echo "arm64" ;; *) echo "amd64" ;; esac); \
-#     if [ "$architecture" = "arm64" ] || [ "$architecture" = "aarch64" ]; then \
-#         echo "New Relic is not supported in Lagoon arm64 images"; \
-#     else \
-#         mkdir -p /tmp/newrelic && cd /tmp/newrelic \
-#         && wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz \
-#         && gzip -dc newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz | tar --strip-components=1 -xf - \
-#         && NR_INSTALL_USE_CP_NOT_LN=1 NR_INSTALL_SILENT=1 ./newrelic-install install \
-#         && sed -i -e "s/newrelic.appname = .*/newrelic.appname = \"\${LAGOON_PROJECT:-noproject}-\${LAGOON_GIT_SAFE_BRANCH:-nobranch}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/;newrelic.enabled = .*/newrelic.enabled = \${NEWRELIC_ENABLED:-false}/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/;newrelic.browser_monitoring.auto_instrument = .*/newrelic.browser_monitoring.auto_instrument = \${NEWRELIC_BROWSER_MONITORING_ENABLED:-true}/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/newrelic.license = .*/newrelic.license = \"\${NEWRELIC_LICENSE:-}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/;newrelic.loglevel = .*/newrelic.loglevel = \"\${NEWRELIC_LOG_LEVEL:-warning}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/;newrelic.daemon.loglevel = .*/newrelic.daemon.loglevel = \"\${NEWRELIC_DAEMON_LOG_LEVEL:-warning}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/newrelic.logfile = .*/newrelic.logfile = \"\/dev\/stderr\"/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && sed -i -e "s/newrelic.daemon.logfile = .*/newrelic.daemon.logfile = \"\/dev\/stderr\"/" /usr/local/etc/php/conf.d/newrelic.ini \
-#         && mv /usr/local/etc/php/conf.d/newrelic.ini /usr/local/etc/php/conf.d/newrelic.disable \
-#         && cd / && rm -rf /tmp/newrelic \
-#         && fix-permissions /usr/local/etc/; \
-#     fi;
+ENV NEWRELIC_VERSION=10.7.0.319
+RUN architecture=$(case $(uname -m) in x86_64 | amd64) echo "amd64" ;; aarch64 | arm64 | armv8) echo "arm64" ;; *) echo "amd64" ;; esac); \
+    if [ "$architecture" = "arm64" ] || [ "$architecture" = "aarch64" ]; then \
+        echo "New Relic is not supported in Lagoon arm64 images"; \
+    else \
+        mkdir -p /tmp/newrelic && cd /tmp/newrelic \
+        && wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz \
+        && gzip -dc newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz | tar --strip-components=1 -xf - \
+        && NR_INSTALL_USE_CP_NOT_LN=1 NR_INSTALL_SILENT=1 ./newrelic-install install \
+        && sed -i -e "s/newrelic.appname = .*/newrelic.appname = \"\${LAGOON_PROJECT:-noproject}-\${LAGOON_GIT_SAFE_BRANCH:-nobranch}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/;newrelic.enabled = .*/newrelic.enabled = \${NEWRELIC_ENABLED:-false}/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/;newrelic.browser_monitoring.auto_instrument = .*/newrelic.browser_monitoring.auto_instrument = \${NEWRELIC_BROWSER_MONITORING_ENABLED:-true}/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/;newrelic.distributed_tracing_enabled = .*/newrelic.distributed_tracing_enabled = \${NEWRELIC_DISTRIBUTED_TRACING_ENABLED:-false}/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/newrelic.license = .*/newrelic.license = \"\${NEWRELIC_LICENSE:-}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/;newrelic.loglevel = .*/newrelic.loglevel = \"\${NEWRELIC_LOG_LEVEL:-warning}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/;newrelic.daemon.loglevel = .*/newrelic.daemon.loglevel = \"\${NEWRELIC_DAEMON_LOG_LEVEL:-warning}\"/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/newrelic.logfile = .*/newrelic.logfile = \"\/dev\/stderr\"/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && sed -i -e "s/newrelic.daemon.logfile = .*/newrelic.daemon.logfile = \"\/dev\/stderr\"/" /usr/local/etc/php/conf.d/newrelic.ini \
+        && mv /usr/local/etc/php/conf.d/newrelic.ini /usr/local/etc/php/conf.d/newrelic.disable \
+        && cd / && rm -rf /tmp/newrelic \
+        && fix-permissions /usr/local/etc/; \
+    fi;
 
 # Add blackfire probe and agent.
 RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
@@ -136,7 +136,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && mv /blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
     && fix-permissions /usr/local/etc/php/conf.d/
 
-ENV BLACKFIRE_VERSION=2.13.2
+ENV BLACKFIRE_VERSION=2.14.0
 RUN architecture=$(case $(uname -m) in x86_64 | amd64) echo "amd64" ;; aarch64 | arm64 | armv8) echo "arm64" ;; *) echo "amd64" ;; esac) \
     && curl -A "Docker" -o /blackfire/blackfire-linux_${architecture}.tar.gz -D - -L -s https://packages.blackfire.io/binaries/blackfire/${BLACKFIRE_VERSION}/blackfire-linux_${architecture}.tar.gz \
     && tar zxpf /blackfire/blackfire-linux_${architecture}.tar.gz -C /blackfire \

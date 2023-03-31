@@ -2,7 +2,7 @@ ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 
-FROM varnish:7.2-alpine
+FROM varnish:7.3-alpine
 
 ENV LAGOON=varnish
 
