@@ -1,7 +1,8 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-FROM node:16.19-alpine3.17
+
+FROM node:16.20-alpine3.17
 
 ENV LAGOON=node
 
