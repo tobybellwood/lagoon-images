@@ -69,7 +69,8 @@ jobs:
         uses: docker/bake-action@master
         with:
           files: |
-            ./docker-bake.hcl ${{ matrix.package_group }}
+            ./docker-bake.hcl
+          targets: ${{ matrix.package_group }}
           push: true
           # set: |
           #   *.cache-from=type=gha
