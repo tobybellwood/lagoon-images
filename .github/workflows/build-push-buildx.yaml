@@ -38,6 +38,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - 
         name: Restore docker cache
+        id: cache-packages-restore
         uses: actions/cache/restore@v3
         with:
           path: |
@@ -88,7 +89,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
+          key: ${{ steps.cache-packages-restore.outputs.cache-primary-key }}
       # -
       #   name: Build and push
       #   uses: docker/build-push-action@v2
