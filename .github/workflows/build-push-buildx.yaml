@@ -43,7 +43,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-*
       # -
       #   name: Cache Docker layers
       #   uses: actions/cache@v2
@@ -89,7 +89,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ steps.cache-packages-restore.outputs.cache-primary-key }}
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-${{ hashFiles('**/images') }}
       # -
       #   name: Build and push
       #   uses: docker/build-push-action@v2
