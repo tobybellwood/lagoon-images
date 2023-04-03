@@ -47,7 +47,7 @@ jobs:
             - 'images/solr/**'
             - '!images/**'
           varnish: 
-            - 'images/varnish**'
+            - 'images/varnish/**'
             - '!images/**'
           others:
             - 'images/commons/**'
