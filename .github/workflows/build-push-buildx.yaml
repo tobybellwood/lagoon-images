@@ -22,15 +22,33 @@ jobs:
       id: filter
       with:
         filters: |
-          mariadb: 'images/mariadb/**'
-          node: 'images/node/**'
-          php: 'images/php/**'
-          postgres: 'images/postgres/**'
-          python: 'images/python/**'
-          redis: 'images/redis/**'
-          ruby: 'images/ruby/**'
-          solr: 'images/solr/**'
-          varnish: 'images/**'
+          mariadb:
+            - 'images/mariadb/**'
+            - '!images/**'          
+          node:
+            - 'images/node/**'
+            - '!images/**'
+          php:
+            - 'images/php/**'
+            - '!images/**'
+          postgres:
+            - 'images/postgres/**'
+            - '!images/**'
+          python:
+            - 'images/python/**'
+            - '!images/**'
+          redis:
+            - 'images/redis/**'
+            - '!images/**'
+          ruby:
+            - 'images/ruby/**'
+            - '!images/**'
+          solr: 
+            - 'images/solr/**'
+            - '!images/**'
+          varnish: 
+            - 'images/varnish**'
+            - '!images/**'
           others:
             - 'images/commons/**'
             - 'images/elasticsearch-7/**'
@@ -42,10 +60,7 @@ jobs:
             - 'images/opensearch-2/**'
             - 'images/rabbitmq/**'
             - 'images/rabbitmq-cluster/**'
-          default:
-            - '*'
-            - '.github/**'
-            - 'helpers/**'
+            - '!images/**'
 
   build:
     needs: changes
@@ -71,7 +86,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-*
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-*
       # -
       #   name: Cache Docker layers
       #   uses: actions/cache@v2
