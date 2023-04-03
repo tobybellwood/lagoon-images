@@ -31,7 +31,7 @@ jobs:
           ruby: 'images/ruby/**'
           solr: 'images/solr/**'
           varnish: 'images/**'
-          others: |
+          others:
             - 'images/commons/**'
             - 'images/elasticsearch-7/**'
             - 'images/kibana-7/**'
@@ -42,7 +42,7 @@ jobs:
             - 'images/opensearch-2/**'
             - 'images/rabbitmq/**'
             - 'images/rabbitmq-cluster/**'
-          default: |
+          default:
             - '*'
             - '.github/**'
             - 'helpers/**'
