@@ -79,22 +79,22 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - 
-        name: Restore docker cache
-        id: cache-packages-restore
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
-      # -
-      #   name: Cache Docker layers
-      #   uses: actions/cache@v2
+      # - 
+      #   name: Restore docker cache
+      #   id: cache-packages-restore
+      #   uses: actions/cache/restore@v3
       #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-buildx-${{ github.ref_name }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-buildx-
+      #     path: |
+      #       /tmp/.buildx-cache
+      #     key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
+      -
+        name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-${{ hashFiles('**/images') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
       # -
       #   name: Login to DockerHub
       #   uses: docker/login-action@v1 
@@ -126,13 +126,13 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-      - 
-        name: Save docker cache
-        uses: actions/cache/save@v3
-        with:
-          path: |
-            /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-${{ hashFiles('**/images') }}
+      # - 
+      #   name: Save docker cache
+      #   uses: actions/cache/save@v3
+      #   with:
+      #     path: |
+      #       /tmp/.buildx-cache
+      #     key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-${{ hashFiles('**/images') }}
       # -
       #   name: Build and push
       #   uses: docker/build-push-action@v2
