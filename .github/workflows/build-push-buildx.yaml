@@ -86,7 +86,7 @@ jobs:
         with:
           path: |
             /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}-*
+          key: ${{ runner.os }}-buildx-${{ matrix.package_group }}
       # -
       #   name: Cache Docker layers
       #   uses: actions/cache@v2
