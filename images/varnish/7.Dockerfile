@@ -8,6 +8,7 @@ ENV LAGOON=varnish
 
 ARG LAGOON_VERSION
 ENV LAGOON_VERSION=$LAGOON_VERSION
+ENV LAGOON_VERSION_2=$LAGOON_VERSION
 
 # Copy commons files
 COPY --from=commons /lagoon /lagoon
