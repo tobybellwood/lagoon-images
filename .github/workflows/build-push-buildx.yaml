@@ -9,22 +9,43 @@ on:
       - 'gh_actions**'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      # Expose matched filters as job 'package_group' output variable
+      package_group: ${{ steps.filter.outputs.changes }}
+    steps:
+    # For pull requests it's not necessary to checkout the code
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          mariadb: images/mariadb
+          node: images/node
+          php: images/php
+          postgres: images/postgres
+          python: images/python
+          redis: images/redis
+          ruby: images/ruby
+          solr: images/solr
+          varnish: images/varnish
+          others: images/commons
+          others: images/elasticsearch-7
+          others: images/kibana-7
+          others: images/logstash-7
+          others: images/mongo-4
+          others: images/nginx
+          others: images/nginx-drupal
+          others: images/opensearch-2
+          others: images/rabbitmq
+          others: images/rabbitmq-cluster
+          others: '***'
   build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - package_group: mariadb
-          - package_group: node
-          - package_group: php
-          - package_group: postgres
-          - package_group: python
-          - package_group: redis
-          - package_group: ruby
-          - package_group: solr
-          - package_group: varnish
-          - package_group: others
+        package_group: ${{ fromJSON(needs.changes.outputs.package_group) }}
 
     steps:
       -
