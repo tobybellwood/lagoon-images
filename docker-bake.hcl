@@ -2,27 +2,26 @@
 group "default" {
   targets = [
     "commons", 
-    "elasticsearch-7",
-    "kibana-7",
-    "logstash-7",
     "mariadb-10-4",
     "mariadb-10-4-drupal",
     "mariadb-10-5",
     "mariadb-10-5-drupal",
     "mariadb-10-6",
     "mariadb-10-6-drupal",
+    "mariadb-10-11",
+    "mariadb-10-11-drupal",
     "mongo-4",
     "nginx",
     "nginx-drupal",
-    "node-14",
-    "node-14-builder",
-    "node-14-cli",
     "node-16",
     "node-16-builder",
     "node-16-cli",
     "node-18",
     "node-18-builder",
     "node-18-cli",
+    "node-20",
+    "node-20-builder",
+    "node-20-cli",
     "opensearch-2",
     "php-8-0-fpm",
     "php-8-0-cli",
@@ -82,22 +81,24 @@ group "mariadb" {
     "mariadb-10-5",
     "mariadb-10-5-drupal",
     "mariadb-10-6",
-    "mariadb-10-6-drupal"
+    "mariadb-10-6-drupal",
+    "mariadb-10-11",
+    "mariadb-10-11-drupal",
   ]
 }
 
 group "node" {
   targets = [
     "commons", 
-    "node-14",
-    "node-14-builder",
-    "node-14-cli",
     "node-16",
     "node-16-builder",
     "node-16-cli",
     "node-18",
     "node-18-builder",
-    "node-18-cli"
+    "node-18-cli",
+    "node-20",
+    "node-20-builder",
+    "node-20-cli",
   ]
 }
 
@@ -210,36 +211,6 @@ target "commons" {
   platforms = ["linux/amd64","linux/arm64"]
 }
 
-target "elasticsearch-7" {
-  inherits = ["commons"]
-  context = "images/elasticsearch"
-  contexts = {
-    "lagoon/commons": "target:commons"
-  }
-  dockerfile = "7.Dockerfile"
-  tags = ["ghcr.io/tobybellwood/elasticsearch-7:bake"]
-}
-
-target "kibana-7" {
-  inherits = ["commons"]
-  context = "images/kibana"
-  contexts = {
-    "lagoon/commons": "target:commons"
-  }
-  dockerfile = "7.Dockerfile"
-  tags = ["ghcr.io/tobybellwood/kibana-7:bake"]
-}
-
-target "logstash-7" {
-  inherits = ["commons"]
-  context = "images/logstash"
-  contexts = {
-    "lagoon/commons": "target:commons"
-  }
-  dockerfile = "7.Dockerfile"
-  tags = ["ghcr.io/tobybellwood/logstash-7:bake"]
-}
-
 target "mariadb-10-4" {
   inherits = ["commons"]
   context = "images/mariadb"
@@ -300,6 +271,26 @@ target "mariadb-10-6-drupal" {
   tags = ["ghcr.io/tobybellwood/mariadb-10.6-drupal:bake"]
 }
 
+target "mariadb-10-11" {
+  inherits = ["commons"]
+  context = "images/mariadb"
+  contexts = {
+    "lagoon/commons": "target:commons"
+  }
+  dockerfile = "10.11.Dockerfile"
+  tags = ["ghcr.io/tobybellwood/mariadb-10.11:bake"]
+}
+
+target "mariadb-10-11-drupal" {
+  inherits = ["commons"]
+  context = "images/mariadb-drupal"
+  contexts = {
+    "lagoon/mariadb-10.11": "target:mariadb-10-6"
+  }
+  dockerfile = "10.11.Dockerfile"
+  tags = ["ghcr.io/tobybellwood/mariadb-10.11-drupal:bake"]
+}
+
 target "mongo-4" {
   inherits = ["commons"]
   context = "images/mongo"
@@ -328,36 +319,6 @@ target "nginx-drupal" {
   }
   dockerfile = "Dockerfile"
   tags = ["ghcr.io/tobybellwood/nginx:bake"]
-}
-
-target "node-14" {
-  inherits = ["commons"]
-  context = "images/node"
-  contexts = {
-    "lagoon/commons": "target:commons"
-  }
-  dockerfile = "14.Dockerfile"
-  tags = ["ghcr.io/tobybellwood/node-14:bake"]
-}
-
-target "node-14-builder" {
-  inherits = ["commons"]
-  context = "images/node-builder"
-  contexts = {
-    "lagoon/node-14": "target:node-14"
-  }
-  dockerfile = "14.Dockerfile"
-  tags = ["ghcr.io/tobybellwood/node-14-builder:bake"]
-}
-
-target "node-14-cli" {
-  inherits = ["commons"]
-  context = "images/node-cli"
-  contexts = {
-    "lagoon/node-14": "target:node-14"
-  }
-  dockerfile = "14.Dockerfile"
-  tags = ["ghcr.io/tobybellwood/node-14-cli:bake"]
 }
 
 target "node-16" {
@@ -419,6 +380,36 @@ target "node-18-cli" {
   }
   dockerfile = "18.Dockerfile"
   tags = ["ghcr.io/tobybellwood/node-18-cli:bake"]
+}
+
+target "node-20" {
+  inherits = ["commons"]
+  context = "images/node"
+  contexts = {
+    "lagoon/commons": "target:commons"
+  }
+  dockerfile = "20.Dockerfile"
+  tags = ["ghcr.io/tobybellwood/node-20:bake"]
+}
+
+target "node-20-builder" {
+  inherits = ["commons"]
+  context = "images/node-builder"
+  contexts = {
+    "lagoon/node-20": "target:node-20"
+  }
+  dockerfile = "20.Dockerfile"
+  tags = ["ghcr.io/tobybellwood/node-20-builder:bake"]
+}
+
+target "node-20-cli" {
+  inherits = ["commons"]
+  context = "images/node-cli"
+  contexts = {
+    "lagoon/node-20": "target:node-20"
+  }
+  dockerfile = "20.Dockerfile"
+  tags = ["ghcr.io/tobybellwood/node-20-cli:bake"]
 }
 
 target "opensearch-2" {
