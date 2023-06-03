@@ -1,8 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-
-FROM openresty/openresty:1.21.4.1-6-alpine
+FROM openresty/openresty:1.21.4.1-7-alpine
 
 ENV LAGOON=nginx
 

@@ -1,8 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-
-FROM alpine:3.17.3
+FROM alpine:3.18.0
 
 ENV LAGOON=mongo
 

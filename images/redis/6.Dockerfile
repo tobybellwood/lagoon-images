@@ -1,8 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-
-FROM redis:6.2.11-alpine3.17
+FROM redis:6.2.12-alpine3.18
 
 ENV LAGOON=redis
 ENV FLAVOR=ephemeral

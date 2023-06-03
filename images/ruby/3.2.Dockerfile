@@ -2,7 +2,7 @@ ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
 
-FROM ruby:3.2.2-alpine3.17
+FROM ruby:3.2.2-alpine3.18
 
 ENV LAGOON=ruby
 

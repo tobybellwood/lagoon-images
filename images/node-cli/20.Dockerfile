@@ -1,5 +1,5 @@
 ARG IMAGE_REPO
-FROM ${IMAGE_REPO:-lagoon}/node-14
+FROM ${IMAGE_REPO:-lagoon}/node-20
 
 ENV LAGOON=node
 
@@ -21,7 +21,6 @@ RUN apk add --no-cache git \
     && rm -rf /var/cache/apk/* \
     && mkdir -p /home/.ssh \
     && fix-permissions /home/
-
 
 # We not only use "export $PATH" as this could be overwritten again
 # like it happens in /etc/profile of alpine Images.

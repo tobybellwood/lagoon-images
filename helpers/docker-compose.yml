@@ -28,6 +28,12 @@ services:
       - "3306"
     << : *default-user # uses the defined user from top
 
+  mariadb-10-11:
+    image: uselagoon/mariadb-10.11:latest
+    ports:
+      - "3306"
+    << : *default-user # uses the defined user from top
+
   mongo-4:
     image: uselagoon/mongo-4:latest
     ports:
@@ -43,17 +49,6 @@ services:
       - "8080" # exposes the port 8080 with a random local port, find it with `docker-compose port nginx 8080`
     << : *default-user # uses the defined user from top
 
-  node-14:
-    image: uselagoon/node-14:latest
-    ports:
-      - "3000"
-    user: root
-    command: ["sh", "-c", "
-        npm install -g http-server;
-        node -v | xargs > /app/test.html;
-        exec http-server -p 3000
-        "]
-
   node-16:
     image: uselagoon/node-16:latest
     ports:
@@ -67,6 +62,17 @@ services:
 
   node-18:
     image: uselagoon/node-18:latest
+    ports:
+      - "3000"
+    user: root
+    command: ["sh", "-c", "
+        npm install -g http-server;
+        node -v | xargs > /app/test.html;
+        exec http-server -p 3000
+        "]
+
+  node-20:
+    image: uselagoon/node-20:latest
     ports:
       - "3000"
     user: root
@@ -105,6 +111,102 @@ services:
     ports:
       - "5432"
     << : *default-user # uses the defined user from top
+
+  php-8-0-dev:
+    image: uselagoon/php-8.0-cli:latest
+    ports:
+      - "9000"
+    environment:
+      - LAGOON_ENVIRONMENT_TYPE=development
+      - XDEBUG_ENABLE=true
+      - XDEBUG_LOG=true
+      - NEWRELIC_ENABLED=true
+      - BLACKFIRE_ENABLED=true
+    << : *default-user # uses the defined user from top
+    command: ["sh", "-c", "
+        echo PD9waHAKCnBocGluZm8oICk7Cgo/Pg== | base64 -d > /app/index.php;
+        exec php -S 0.0.0.0:9000
+        "] # runs a webserver with phpinfo output
+
+  php-8-0-prod:
+    image: uselagoon/php-8.0-cli:latest
+    ports:
+      - "9000"
+    environment:
+      - LAGOON_ENVIRONMENT_TYPE=production
+      - PHP_MAX_INPUT_VARS=4000
+      - PHP_MAX_FILE_UPLOADS=40
+      - PHP_SESSION_COOKIE_SAMESITE="Strict"
+      - PHP_UPLOAD_MAX_FILESIZE=1024M
+    << : *default-user # uses the defined user from top
+    command: ["sh", "-c", "
+        echo PD9waHAKCnBocGluZm8oICk7Cgo/Pg== | base64 -d > /app/index.php;
+        exec php -S 0.0.0.0:9000
+        "] # runs a webserver with phpinfo output
+
+  php-8-1-dev:
+    image: uselagoon/php-8.1-cli:latest
+    ports:
+      - "9000"
+    environment:
+      - LAGOON_ENVIRONMENT_TYPE=development
+      - XDEBUG_ENABLE=true
+      - XDEBUG_LOG=true
+      - NEWRELIC_ENABLED=true
+      - BLACKFIRE_ENABLED=true
+    << : *default-user # uses the defined user from top
+    command: ["sh", "-c", "
+        echo PD9waHAKCnBocGluZm8oICk7Cgo/Pg== | base64 -d > /app/index.php;
+        exec php -S 0.0.0.0:9000
+        "] # runs a webserver with phpinfo output
+
+  php-8-1-prod:
+    image: uselagoon/php-8.1-cli:latest
+    ports:
+      - "9000"
+    environment:
+      - LAGOON_ENVIRONMENT_TYPE=production
+      - PHP_MAX_INPUT_VARS=4000
+      - PHP_MAX_FILE_UPLOADS=40
+      - PHP_SESSION_COOKIE_SAMESITE="Strict"
+      - PHP_UPLOAD_MAX_FILESIZE=1024M
+    << : *default-user # uses the defined user from top
+    command: ["sh", "-c", "
+        echo PD9waHAKCnBocGluZm8oICk7Cgo/Pg== | base64 -d > /app/index.php;
+        exec php -S 0.0.0.0:9000
+        "] # runs a webserver with phpinfo output
+
+  php-8-2-dev:
+    image: uselagoon/php-8.2-cli:latest
+    ports:
+      - "9000"
+    environment:
+      - LAGOON_ENVIRONMENT_TYPE=development
+      - XDEBUG_ENABLE=true
+      - XDEBUG_LOG=true
+      - NEWRELIC_ENABLED=true
+      - BLACKFIRE_ENABLED=true
+    << : *default-user # uses the defined user from top
+    command: ["sh", "-c", "
+        echo PD9waHAKCnBocGluZm8oICk7Cgo/Pg== | base64 -d > /app/index.php;
+        exec php -S 0.0.0.0:9000
+        "] # runs a webserver with phpinfo output
+
+  php-8-2-prod:
+    image: uselagoon/php-8.2-cli:latest
+    ports:
+      - "9000"
+    environment:
+      - LAGOON_ENVIRONMENT_TYPE=production
+      - PHP_MAX_INPUT_VARS=4000
+      - PHP_MAX_FILE_UPLOADS=40
+      - PHP_SESSION_COOKIE_SAMESITE="Strict"
+      - PHP_UPLOAD_MAX_FILESIZE=1024M
+    << : *default-user # uses the defined user from top
+    command: ["sh", "-c", "
+        echo PD9waHAKCnBocGluZm8oICk7Cgo/Pg== | base64 -d > /app/index.php;
+        exec php -S 0.0.0.0:9000
+        "] # runs a webserver with phpinfo output
 
   python-3-7:
     image: uselagoon/python-3.7:latest
@@ -247,14 +349,6 @@ services:
     image: uselagoon/opensearch-2:latest
     labels:
       lando.type: opensearch
-    ports:
-      - "9200" # exposes the port 8080 with a random local port, find it with `docker-compose port nginx 8080`
-    << : *default-user # uses the defined user from top
-
-  elasticsearch-7:
-    image: uselagoon/elasticsearch-7:latest
-    labels:
-      lando.type: elasticsearch
     ports:
       - "9200" # exposes the port 8080 with a random local port, find it with `docker-compose port nginx 8080`
     << : *default-user # uses the defined user from top

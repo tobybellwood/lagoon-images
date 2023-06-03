@@ -1,8 +1,7 @@
 ARG IMAGE_REPO
 ARG IMAGE_TAG
 FROM ${IMAGE_REPO:-lagoon}/commons:${IMAGE_TAG:-latest} as commons
-
-# Alpine 3.17 image not available for Ruby 3.0
+# Alpine 3.18 image not available for Ruby 3.0
 FROM ruby:3.0.6-alpine3.16
 
 ENV LAGOON=ruby
@@ -10,11 +9,14 @@ ENV LAGOON=ruby
 # Copy commons files
 COPY --from=commons /lagoon /lagoon
 COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/wait-for /bin/
-COPY --from=commons /sbin/tini /sbin/
 COPY --from=commons /home /home
 
 RUN fix-permissions /etc/passwd \
     && mkdir -p /home
+
+RUN apk update \
+    && apk add --no-cache tini \
+    && rm -rf /var/cache/apk/*
 
 ENV TMPDIR=/tmp \
     TMP=/tmp \

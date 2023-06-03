@@ -6,7 +6,7 @@ FROM composer:latest as healthcheckbuilder
 
 RUN composer create-project --no-dev amazeeio/healthz-php /healthz-php v0.0.6
 
-# Alpine 3.17 image not available for PHP 8.0
+# Alpine 3.18 image not available for PHP 8.0
 FROM php:8.0.28-fpm-alpine3.16
 
 ENV LAGOON=php
@@ -17,7 +17,6 @@ ENV LAGOON_VERSION=$LAGOON_VERSION
 # Copy commons files
 COPY --from=commons /lagoon /lagoon
 COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/wait-for /bin/
-COPY --from=commons /sbin/tini /sbin/
 COPY --from=commons /home /home
 
 # Copy healthcheck files
@@ -37,8 +36,8 @@ ENV TMPDIR=/tmp \
 COPY check_fcgi /usr/sbin/
 COPY entrypoints /lagoon/entrypoints/
 
-COPY php.ini /usr/local/etc/php/
-COPY 00-lagoon-php.ini.tpl /usr/local/etc/php/conf.d/
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY 00-lagoon-php.ini.tpl "$PHP_INI_DIR/conf.d/"
 COPY php-fpm.d/www.conf php-fpm.d/global.conf /usr/local/etc/php-fpm.d/
 COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
 COPY blackfire.ini /usr/local/etc/php/conf.d/blackfire.disable
@@ -100,13 +99,14 @@ RUN apk add --no-cache --virtual .devdeps \
            libzip \
            postgresql-libs \
            ssmtp \
+           tini \
            yaml
 
 
 # New Relic PHP Agent.
 # @see https://docs.newrelic.com/docs/release-notes/agent-release-notes/php-release-notes/
 # @see https://docs.newrelic.com/docs/agents/php-agent/getting-started/php-agent-compatibility-requirements
-ENV NEWRELIC_VERSION=10.7.0.319
+ENV NEWRELIC_VERSION=10.9.0.324
 RUN architecture=$(case $(uname -m) in x86_64 | amd64) echo "amd64" ;; aarch64 | arm64 | armv8) echo "arm64" ;; *) echo "amd64" ;; esac); \
     if [ "$architecture" = "arm64" ] || [ "$architecture" = "aarch64" ]; then \
         echo "New Relic is not supported in Lagoon arm64 images"; \
@@ -138,7 +138,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && mv /blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
     && fix-permissions /usr/local/etc/php/conf.d/
 
-ENV BLACKFIRE_VERSION=2.14.0
+ENV BLACKFIRE_VERSION=2.16.1
 RUN architecture=$(case $(uname -m) in x86_64 | amd64) echo "amd64" ;; aarch64 | arm64 | armv8) echo "arm64" ;; *) echo "amd64" ;; esac) \
     && curl -A "Docker" -o /blackfire/blackfire-linux_${architecture}.tar.gz -D - -L -s https://packages.blackfire.io/binaries/blackfire/${BLACKFIRE_VERSION}/blackfire-linux_${architecture}.tar.gz \
     && tar zxpf /blackfire/blackfire-linux_${architecture}.tar.gz -C /blackfire \
