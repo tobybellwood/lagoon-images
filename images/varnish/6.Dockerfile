@@ -4,7 +4,7 @@ FROM ${LOCAL_REPO:-lagoon}/commons AS commons
 FROM varnish:6.0.18 AS vmod
 
 # renovate: datasource=docker depName=varnish
-ENV VARNISH_VERSION=6.0.18
+ENV VARNISH_VERSION=6.6.2
 
 USER root
 
